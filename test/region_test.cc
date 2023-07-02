@@ -2,7 +2,7 @@
 
 #include "../aalloc.h"
 
-TEST(aalloc, init_region) {
+TEST(region, init_region) {
   Region *r = init_region(1024);
 
   EXPECT_EQ(r->size, 1024);
@@ -10,7 +10,7 @@ TEST(aalloc, init_region) {
   EXPECT_NE(r->data, nullptr);
 }
 
-TEST(aalloc, alloc_region) {
+TEST(region, alloc_region) {
   Region *r = init_region(1024);
   const char* string = "Hello, World!";
   const size_t str_size = strlen(string) + 1;
@@ -22,7 +22,7 @@ TEST(aalloc, alloc_region) {
   EXPECT_EQ(r->capacity, str_size);
 }
 
-TEST(aalloc, alloc_region_multiple) {
+TEST(region, alloc_region_multiple) {
   Region *r = init_region(1024);
 
   const char* string = "Hello, World!";
@@ -40,7 +40,7 @@ TEST(aalloc, alloc_region_multiple) {
   EXPECT_EQ(r->capacity, str_size + str_size2);
 }
 
-TEST(aalloc, alloc_region_overflow) {
+TEST(region, alloc_region_overflow) {
   const char* string = "Hello, World!";
   const size_t str_size = strlen(string) + 1;
   Region *r = init_region(str_size - 1);
@@ -51,7 +51,7 @@ TEST(aalloc, alloc_region_overflow) {
   EXPECT_EQ(r->capacity, 0);
 }
 
-TEST(aalloc, region_free) {
+TEST(region, region_free) {
   Region *r = init_region(1024);
 
   const char* string = "Hello, World!";
