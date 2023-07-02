@@ -8,6 +8,6 @@ C implementation of an arena allocator for learning purposes
 
 ## Run
 
-´´´cmake
+```cmake
 $ make
-´´´
+```
