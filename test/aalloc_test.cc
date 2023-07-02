@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "aalloc.h"
+#include "../aalloc.h"
 
 TEST(aalloc, init_region) {
   Region *r = init_region(1024);
