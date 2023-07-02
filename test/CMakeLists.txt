@@ -5,12 +5,12 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 
-add_executable(aalloc_test
-               aalloc_test.cc)
-target_link_libraries(aalloc_test
+add_executable(region_test
+               region_test.cc)
+target_link_libraries(region_test
                       PRIVATE
                       aalloc
                       gtest_main)
 
-gtest_discover_tests(aalloc_test)
+gtest_discover_tests(region_test)
 
