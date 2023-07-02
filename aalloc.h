@@ -10,7 +10,7 @@ extern "C" {
 typedef struct {
   void *data;
   size_t size;
-  size_t capacity;
+  size_t used;
 } Region;
 
 Region *init_region(size_t capacity);
