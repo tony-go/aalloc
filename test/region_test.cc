@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include <string.h>
-#include <sys/_types/_size_t.h>
 
 #include "../aalloc.h"
 
