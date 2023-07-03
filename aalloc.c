@@ -3,6 +3,23 @@
 #include <assert.h>
 #include <mm_malloc.h>
 
+Arena* new_arena() {
+  Arena *arena = malloc(sizeof(Arena) + ARENA_PAGE_SIZE);
+
+  arena->size = ARENA_PAGE_SIZE;
+  arena->used = 0;
+  arena->data = (void*)(arena + 1);
+  arena->next = NULL;
+
+  return arena;
+}
+
+void *alloc_arena(Arena *arena, size_t size) {
+  void *ptr = arena->data + arena->used;
+  arena->used = arena->used + size;
+  return ptr;
+}
+
 Region *init_region(size_t size) {
   Region *region = malloc(sizeof(Region) + size);
   assert(region != NULL);
