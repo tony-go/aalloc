@@ -10,7 +10,8 @@ add_executable(region_test
 target_link_libraries(region_test
                       PRIVATE
                       aalloc
-                      gtest_main)
+                      gtest_main
+                      gmock_main)
 
 gtest_discover_tests(region_test)
 

@@ -19,14 +19,23 @@ Arena *new_arena() {
 }
 
 void *alloc_arena(Arena *arena, size_t size) {
-  if (size + arena->used > arena->size) {
-    size_t next_size = size > ARENA_PAGE_SIZE ? size : ARENA_PAGE_SIZE;
-    arena->next = _new_arena(next_size);
-    return arena->next->data;
-  }
-  void *ptr = arena->data + arena->used;
-  arena->used = arena->used + size;
-  return ptr;
+  Arena *last;
+
+  do {
+    if (size + arena->used <= arena->size) {
+      void *ptr = arena->data + arena->used;
+      arena->used = arena->used + size;
+      return ptr;
+    }
+
+    last = arena;
+    arena = arena->next;
+  } while (NULL != arena);
+
+  size_t next_size = size > ARENA_PAGE_SIZE ? size : ARENA_PAGE_SIZE;
+  last->next = _new_arena(next_size);
+  last->next->used += size;
+  return last->next->data;
 }
 
 Region *init_region(size_t size) {
