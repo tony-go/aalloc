@@ -22,17 +22,7 @@ Arena *new_arena();
 
 void *alloc_arena(Arena *arena, size_t size);
 
-typedef struct {
-  void *data;
-  size_t size;
-  size_t used;
-} Region;
-
-Region *init_region(size_t capacity);
-
-void free_region(Region *region);
-
-void *alloc_region(Region *region, size_t size);
+void free_arena(Arena *arena);
 
 #ifdef __cplusplus
 }

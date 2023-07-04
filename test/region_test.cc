@@ -17,6 +17,9 @@ TEST(aalloc, new_arena) {
   EXPECT_EQ(a->used, 0);
   EXPECT_NE(a->data, nullptr);
   EXPECT_EQ(a->next, nullptr);
+
+  free_arena(a);
+  a = nullptr;
 }
 
 TEST(aalloc, alloc_arena_return_ptr) {
@@ -27,6 +30,9 @@ TEST(aalloc, alloc_arena_return_ptr) {
   void *ptr = alloc_arena(a, input_len);
 
   EXPECT_NE(ptr, nullptr);
+
+  free_arena(a);
+  a = nullptr;
 }
 
 TEST(aalloc, alloc_arena_used_increase) {
@@ -37,23 +43,27 @@ TEST(aalloc, alloc_arena_used_increase) {
   void *ptr = alloc_arena(a, input_len);
 
   EXPECT_EQ(a->used, input_len);
+
+  free_arena(a);
+  a = nullptr;
 }
 
 TEST(aalloc, alloc_arena_allocate_when_overflow) {
   Arena *a = new_arena();
   const size_t too_large_size = ARENA_PAGE_SIZE * 2;
-  const size_t too_large_str_size = too_large_size + 1;
-  char *too_large_str = (char *)malloc(too_large_str_size);
-  memset(too_large_str, 'x', too_large_size);
+  char *too_large_str = generate_string(too_large_size, 'x');
 
   char *ptr = (char *)alloc_arena(a, too_large_size);
 
   EXPECT_NE(ptr, nullptr);
   strcpy(ptr, too_large_str);
   EXPECT_STREQ(ptr, too_large_str);
+
+  free_arena(a);
+  a = nullptr;
 }
 
-TEST(aalloc, alloc_arena_use_remaining_memory) {
+TEST(aalloc, alloc_arena_use_available_memory) {
   Arena *a = new_arena();
   int count;
 
@@ -90,6 +100,13 @@ TEST(aalloc, alloc_arena_use_remaining_memory) {
   EXPECT_THAT(str2_ptr, StartsWith(str2));
   EXPECT_STREQ(str3_ptr, str3);
   EXPECT_STREQ(str4_ptr, str4);
+
+  free_arena(a);
+  a = nullptr;
+  free(str1);
+  free(str2);
+  free(str3);
+  free(str4);
 }
 
 /*
