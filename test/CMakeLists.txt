@@ -6,7 +6,7 @@ FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 
 add_executable(region_test
-               region_test.cc)
+               arena_test.cc)
 target_link_libraries(region_test
                       PRIVATE
                       aalloc
