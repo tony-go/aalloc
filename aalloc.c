@@ -8,6 +8,7 @@ Arena* _new_arena(size_t size) {
 
   arena->size = size;
   arena->used = 0;
+  // NOTE: initialize data pointer to the first byte after the Arena struct
   arena->data = (void*)(arena + 1);
   arena->next = NULL;
 
