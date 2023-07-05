@@ -3,21 +3,26 @@
 
 #include <stddef.h>
 
+#define ARENA_PAGE_SIZE 4096
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct {
+typedef struct Arena Arena;
+
+struct Arena {
   void *data;
   size_t size;
   size_t used;
-} Region;
+  Arena *next;
+};
 
-Region *init_region(size_t capacity);
+Arena *new_arena();
 
-void free_region(Region *region);
+void *alloc_arena(Arena *arena, size_t size);
 
-void *alloc_region(Region *region, size_t size);
+void free_arena(Arena *arena);
 
 #ifdef __cplusplus
 }
